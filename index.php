@@ -1,0 +1,231 @@
+<?php
+
+	require "sql.php";
+	
+	$count_query="select count(count) from submission";
+	$user_query="select count(Er_no) from users";
+	$query_result=mysqli_query($con,$count_query);
+	$user_query_result=mysqli_query($con,$user_query);
+	
+	if(isset($_REQUEST["err_messg"]))
+		$err_messg = $_REQUEST["err_messg"];
+	else if(isset($_REQUEST["err_messg_sign"]))
+	{
+		$err_messg_sign = $_REQUEST["err_messg_sign"];
+	}
+	else
+	{
+		$err_messg_sign = null;
+		$err_messg = null;
+	}
+		
+?>
+
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Treasure Hunt</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="bootstrap.css"/>
+		<!--<link href='https://fonts.googleapis.com/css?family=Trade+Winds' rel='stylesheet' type='text/css'>-->
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<style>
+@font-face {
+    font-family: myFirstFont;
+    src: url(bones.ttf);
+	color:white;
+	background-color:black;
+}
+.abc
+{
+color:black;
+font-family: 'Trade Winds', cursive;
+}
+.xyz
+{
+ 
+font-family: 'Trade Winds', cursive;
+background: #F09819; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #F09819 , #EDDE5D); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #F09819 , #EDDE5D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        
+}
+.hunt
+{
+font-family: 'Trade Winds', cursive;
+color:white;
+
+background: #FFA17F; /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #FFA17F , #00223E); /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #FFA17F , #00223E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        
+}
+p1 {
+	
+	font-size:60px;
+	color:rgba(255,255,255,1);
+    font-family: 'Quicksand',cursive;
+	font-weight:700;
+	font-size:4em;
+	//background-color:brown;
+	
+}
+			.ghost-button{
+  display: inline-block;
+  width: 200px;
+  padding: 8px;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+}
+.ghost-button:hover,
+.ghost-button:active {
+  background-color: #fff;
+  color: #000;
+}
+.ghost-button:visited{
+	text-decoration: none;
+}
+p{
+	text-decoration:none;
+}
+
+			</style>
+	</head>
+	<body class="loading">
+	<script src="jquery-2.2.3.min.js" ></script>
+	<script src="right_click_disable.js" ></script>
+	<script src="bootstrap.js" ></script>
+		<div id="wrapper">
+			<div id="bg"></div>
+			<div id="overlay"></div>
+			<div id="main">
+
+			<h3 style="position:absolute; top:5%; right:7%;font-family:Quicksand; font-size:1.4em; border-radius:40%;">
+				<?php
+					if($row=mysqli_fetch_array($user_query_result))
+					{
+						echo "Users : ".$row['count(Er_no)'];
+					}
+				?>
+			</h3>
+			
+			<h3 style="position:absolute; top:10%; right:7%;font-family:Quicksand; font-size:1.4em; border-radius:40%;">
+				<?php
+					if($row=mysqli_fetch_array($query_result))
+					{
+						echo "Submissions : ".$row['count(count)'];
+					}
+				?>
+			</h3>
+				<!-- Header -->
+					<header id="header">
+						<p><img src="dextra_logo.png" height="275" width="420"></img></p>
+						<p1>Treasure Hunt</p1>
+						<p>&nbsp;&nbsp;<a class="ghost-button" data-toggle="modal" href="#myModal">Sign In</a>  &nbsp;&nbsp;<a class="ghost-button" data-toggle="modal" href="#myModal1">Sign Up</a>  &nbsp;&nbsp; </p>
+						<nav>
+							
+
+			</div>
+		</div>
+		<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+		<script>
+			window.onload = function() { document.body.className = ''; }
+			window.ontouchmove = function() { return false; }
+			window.onorientationchange = function() { document.body.scrollTop = 0; }
+		</script>
+
+		
+		<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class=" abc modal-title" id="myModalLabel">Login <span class="text-danger" style="text-align:left; margin-left:105px"><?php if(isset($err_messg)) echo @$err_messg; ?></span></h2>
+      </div>
+	  
+	  
+	  
+      <div class="modal-body">
+       <form action="login.php" method ="POST">
+       <div class="abc form-group">
+      <label for="disabledTextInput">Enroll</label>
+      <input type="text" id="disabledTextInput" class="form-control" placeholder="Enrollment Number" name="er_no" required>
+       </div>
+      
+	  <div class="abc form-group">
+      <label for="disabledSelect">Password</label>
+      <input type="password" id="disabledTextInput" class="form-control" placeholder="your Password here" name="psswd" required>
+      </div>
+	  <div class="modal-footer">
+        <button type="submit" class="hunt btn btn-default btn-lg btn-block">Hunt</button>
+      </div>
+    </form>
+		
+	
+      </div>
+      
+    </div>
+  </div>
+</div>
+</div>
+		
+		
+		
+		
+<!-- Modal -->
+<div class="tr modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class=" abc modal-title" id="myModalLabel">SignUp <span class="text-danger" style="text-align:left; margin-left:105px"><?php if(isset($err_messg_sign)) echo @$err_messg_sign; ?></span></h2>
+      </div>
+      <div class="modal-body">
+	  
+	  
+       <form action="Registration.php" method = "POST">
+       <div class="abc form-group">
+      <label for="disabledTextInput">First Name</label>
+      <input type="text" id="disabledTextInput" class="form-control" placeholder="First Name" name="f_name" required>
+       </div>
+      <div class="abc form-group">
+      <label for="disabledSelect">Last name</label>
+      <input type="text" id="disabledTextInput" class="form-control" placeholder="Last name" name="l_name" required>
+      </div>
+	  <div class="abc form-group">
+      <label for="disabledSelect">Enroll No.</label>
+      <input type="num" id="disabledTextInput" class="form-control" placeholder="Enroll No." name="er_no" required>
+      </div>
+	  <div class="abc form-group">
+      <label for="disabledSelect">Email id</label>
+      <input type="Email" id="disabledTextInput" class="form-control" placeholder="Email id" name="e_mail" required>
+      </div>
+	  <div class="abc form-group">
+      <label for="disabledSelect">Phone no.</label>
+      <input type="text" id="disabledTextInput" class="form-control" placeholder="Phone no." name="ph_no" required>
+      </div>
+	  <div class="abc form-group">
+      <label for="disabledSelect">Password</label>
+      <input type="password" id="disabledTextInput" class="form-control" placeholder="Your Password here" name="psswd" required>
+      </div>
+	  <div class="modal-footer">
+        <button type="submit" class="hunt btn btn-default btn-lg btn-block">Hunt</button>
+      </div>
+    </form>	
+      </div>
+    </div>
+  </div>
+</div>
+</div>				
+	</body>
+</html>	
